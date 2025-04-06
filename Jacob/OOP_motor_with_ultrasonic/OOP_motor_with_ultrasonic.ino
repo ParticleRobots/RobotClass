@@ -261,7 +261,7 @@ Ultrasonic sensor1( 2, 3, 50);
 //Ultrasonic sensor2( 4, 5, 50);
 //Ultrasonic sensor3( 6, 7, 50);
 
-//Music peppaPig(melody, noteDurations, 11, 11);
+Music peppaPig(melody, noteDurations, 11, 11);
 
 void setup() {
   // put your setup code here, to run once:
@@ -280,5 +280,5 @@ void loop() {
   sensor1.Update();
   //sensor2.Update();
   //sensor3.Update();
-  //peppaPig.Update();
+  peppaPig.Update();
 }
