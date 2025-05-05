@@ -18,72 +18,15 @@ Serial.println("Setup done");
 
 void loop() {
   // put your main code here, to run repeatedly:
-pickup();
-delay(500);
-myservo1.write(100);
-delay(500);
-myservo1.write(130);
-delay(500);
-place();
-delay(500);
-/*keyboard_input = Serial.parseInt();
-//Serial.println(keyboard_input);
-if (keyboard_input > 1) {
-if (keyboard_input <= 1180 and keyboard_input >= 1000) {
-  keyboard_input = keyboard_input - 1000;
-  myservo1.write(keyboard_input);
-  delay(50);
-  Serial.println("Angle for motor 1: ");
-  Serial.println(keyboard_input);
+keyboard_input = Serial.parseInt();
+Serial.println(keyboard_input);
+if (keyboard_input > 180 or keyboard_input < 0) {
+  Serial.println("Out of range");
 }
-if (keyboard_input <= 2180 and keyboard_input >= 2000) {
-  keyboard_input = keyboard_input - 2000;
-  myservo2.write(keyboard_input);
-  delay(50);
-  Serial.println("Angle for motor 2: ");
-  Serial.println(keyboard_input);
-}
-if (keyboard_input <= 3180 and keyboard_input >= 3000) {
-  keyboard_input = keyboard_input - 3000;
-  myservo3.write(keyboard_input);
-  delay(50);
-  Serial.println("Angle for motor 3: ");
-  Serial.println(keyboard_input);
-}
-}
-/*delay(50);
+myservo1.write(keyboard_input);
+delay(50);
 homing();
-electromagnet_on();*/
-}
-
-void pickup() {
-  Serial.println("Pickup started");
-  myservo2.write(100);
-  delay(500);
-  myservo1.write(60);
-  delay(150);
-  myservo2.write(55);
-  delay(150);
-  myservo3.write(160);
-  delay(150);
-  electromagnet_on();
-  delay(5000);
-  myservo2.write(85);
-  delay(150);
-  Serial.println("Pickup done");
-  delay(150);
-}
-
-void place() {
-  Serial.println("Placing started");
-
-  myservo1.write(160);
-  delay(150);
-  myservo2.write(55);
-  delay(150);
-  electromagnet_off();
-  delay(150);
-  Serial.println("Placing done");
+electromagnet_on();
 }
 
 void test_electromagnet() {
