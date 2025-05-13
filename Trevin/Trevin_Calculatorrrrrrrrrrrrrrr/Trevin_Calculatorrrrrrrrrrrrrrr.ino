@@ -26,6 +26,8 @@ int p4 = 44;
 int p5 = 45;
 int p6 = 46;
 int p7 = 47;
+
+
 int p8 = 48;
 int p9 = 49;
 
@@ -45,6 +47,7 @@ int result = -1;
 
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
 
   pinMode (a, OUTPUT );
   pinMode (b, OUTPUT );
@@ -91,6 +94,12 @@ void loop() {
   int d0 = digitalRead(p0);
   if (d0 == LOW) {
     digit0();
+    if (operation == -1) {
+      var1 = 0;
+    }
+    else {
+      var2 = 0;
+    }
   }
   int d1 = digitalRead(p1);
   if (d1 == LOW) {
@@ -105,75 +114,214 @@ void loop() {
   int d2 = digitalRead(p2);
   if (d2 == LOW) {
     digit2();
+    if (operation == -1) {
+      var1 = 2;
+    }
+    else {
+      var2 = 2;
+    }
   }
   int d3 = digitalRead(p3);
   if (d3 == LOW) {
     digit3();
+    if (operation == -1) {
+      var1 = 3;
+    }
+    else {
+      var2 = 3;
+    }
   }
   int d4 = digitalRead(p4);
   if (d4 == LOW) {
     digit4();
+    if (operation == -1) {
+      var1 = 4;
+    }
+    else {
+      var2 = 4;
+    }
   }
   int d5 = digitalRead(p5);
   if (d5 == LOW) {
     digit5();
+    if (operation == -1) {
+      var1 = 5;
+    }
+    else {
+      var2 = 5;
+    }
   }
   int d6 = digitalRead(p6);
   if (d6 == LOW) {
     digit6();
+    if (operation == -1) {
+      var1 = 6;
+    }
+    else {
+      var2 = 6;
+    }
   }
   int d7 = digitalRead(p7);
   if (d7 == LOW) {
     digit7();
+    if (operation == -1) {
+      var1 = 7;
+    }
+    else {
+      var2 = 7;
+    }
   }
   int d8 = digitalRead(p8);
   if (d8 == LOW) {
     digit8();
+    if (operation == -1) {
+      var1 = 8;
+    }
+    else {
+      var2 = 8;
+    }
   }
   int d9 = digitalRead(p9);
   if (d9 == LOW) {
     digit9();
+    if (operation == -1) {
+      var1 = 9;
+    }
+    else {
+      var2 = 9;
+    }
   }
 
-
+  // +
   int valplus = digitalRead(pinplus);
   if (valplus == LOW) {
     if ( var1 > -1) {
-      operation = 0;
+      operation  = 0;
     }
   }
-  //  int d9 = digitalRead(p9);
-  //  if (d9 == LOW) {
-  //    digit9();
-  //  }
-  //  int d9 = digitalRead(p9);
-  //  if (d9 == LOW) {
-  //    digit9();
-  //  }
-  //  int d9 = digitalRead(p9);
-  //  if (d9 == LOW) {
-  //    digit9();
-  //  }
-
-
+  // -
+  int valminus = digitalRead(pinminus);
+  if (valminus == LOW) {
+    if ( var1 > -1) {
+      operation  = 1;
+    }
+  }
+  // *
+  // clear
+  int valC = digitalRead(pinC);
+  if (valC == LOW) {
+    var1 = -1;
+    var2 = -1;
+    operation = -1;
+    result = -1;
+    digitblank();
+  }
+  // =
   int valenter = digitalRead(pinenter);
   if (valenter == LOW) {
     if (operation == 0 && var1 > -1 && var2 > -1 ) {
       result = var1 + var2;
     }
-    switch (result){
-      case 0:
-      digit0();
-      case 1:
-      digit1();
-      case 2:
-      digit2();
+
+    if (operation == 1 && var1 > -1 && var2 > -1 ) {
+      result = var1 - var2;
+
     }
-    
+
+    Serial.println (result);
+
+    switch (result) {
+      case -9:
+        digit9();
+        digitnegative();
+        break;
+      case -8:
+        digit8();
+        digitnegative();
+        break;  
+      case -7:
+        digit7();
+        digitnegative();
+        break;
+      case -6:
+        digit6();
+        digitnegative();
+        break;
+      case -5:
+        digit5();
+        digitnegative();
+        break;
+      case -4:
+        digit4();
+        digitnegative();
+        break;
+      case -3:
+        digit3();
+        digitnegative();
+        break;
+      case -2:
+        digit2();
+        digitnegative();
+        break;
+      case -1:
+        digit1();
+        digitnegative();
+        break;
+      case 0:
+        digit0();
+        break;
+      case 1:
+        digit1();
+        break;
+      case 2:
+        digit2();
+        break;
+      case 3:
+        digit3();
+        break;
+      case 4:
+        digit4();
+        break;
+      case 5:
+        digit5();
+        break;
+      case 6:
+        digit6();
+        break;
+      case 7:
+        digit7();
+        break;
+      case 8:
+        digit8();
+        break;
+      case 9:
+        digit9();
+        break;
+    }
+
   }
 
 
 }
+void digitblank() {
+
+  digitalWrite (a, HIGH);
+  digitalWrite (b, HIGH);
+  digitalWrite (c, HIGH);
+  digitalWrite (d, HIGH);
+  digitalWrite (e, HIGH);
+  digitalWrite (f, HIGH);
+  digitalWrite (g, HIGH);
+
+  digitalWrite (ax, HIGH);
+  digitalWrite (bx, HIGH);
+  digitalWrite (cx, HIGH);
+  digitalWrite (dx, HIGH);
+  digitalWrite (ex, HIGH);
+  digitalWrite (fx, HIGH);
+  digitalWrite (gx, HIGH);
+}
+
 
 void digit1() {
 
@@ -293,6 +441,30 @@ void digit0() {
   digitalWrite (f, LOW);
   digitalWrite (g, HIGH);
 }
+
+void digitnegative() {
+
+  digitalWrite (ax, HIGH);
+  digitalWrite (bx, HIGH);
+  digitalWrite (cx, HIGH);
+  digitalWrite (dx, HIGH);
+  digitalWrite (ex, HIGH);
+  digitalWrite (fx, HIGH);
+  digitalWrite (gx, LOW);
+}
+
+//  int d9 = digitalRead(p9);
+//  if (d9 == LOW) {
+//    digit9();
+//  }
+//  int d9 = digitalRead(p9);
+//  if (d9 == LOW) {
+//    digit9();
+//  }
+//  int d9 = digitalRead(p9);
+//  if (d9 == LOW) {
+//    digit9();
+//  }
 
 //digit1();
 //delay(500);

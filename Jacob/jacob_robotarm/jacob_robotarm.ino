@@ -13,11 +13,14 @@ int pulseWidth = 0;
 int T = 25;
 int menu = -1;
 int TD = 55;
+int start = 0;
+int finish = 0;
+
 void setup() {
   // put your setup code here, to run once:
-one.attach(9);
-two.attach(10);
-three.attach(11);
+one.attach(8);
+two.attach(9);
+three.attach(10);
 pinMode(electromagnet, OUTPUT); Serial.begin(9600);
 
 
@@ -31,65 +34,66 @@ pinMode(electromagnet, OUTPUT); Serial.begin(9600);
   */
 
 void loop() {
- /*D = Serial.parseInt();
- Serial.println(D);
- delay(500);
 
- if (D > 0 && D < 1000){
-     pulseWidth = map(D, 0, 180, 1000, 2000);
-  three.writeMicroseconds(pulseWidth);
- }
+ D = Serial.parseInt();
 
- if (D > 1000 && D < 2000){
- pulseWidth = map(D-1000, 0, 180, 1000, 2000);
-  two.writeMicroseconds(pulseWidth);
- }
-  if (D > 2000){
+ delay(100);
+if(D > 0){
+   Serial.println(D);
 
-     pulseWidth = map(D-2000, 0, 180, 1000, 2000);
-  one.writeMicroseconds(pulseWidth);
-  }*/
+
+
+if (D == 1){
+  homing();
+}
+else if(D == 2){
+  pick();
+}
+else if(D == 3){
+  place();
+}
+else if(D ==4){
+  vertical();
+}
+else if(D ==5){
+  electro();
+}else if(D ==6){
+  horizontal();
+}
+else if(D ==7){
+  elbow();
+}
+ else if(D ==8){
+  obstacle();
+} else{
+    Serial.println("option not valid");
+  }}
+// D = Serial.parseInt();
+// Serial.println(D);
+// delay(500);
+//
+// if (D > 0 && D < 1000){
+//     pulseWidth = map(D, 0, 180, 1000, 2000);
+//  three.writeMicroseconds(pulseWidth);
+// }
+//
+// if (D > 1000 && D < 2000){
+// pulseWidth = map(D-1000, 0, 180, 1000, 2000);
+//  two.writeMicroseconds(pulseWidth);
+// }
+//  if (D > 2000){
+//
+//     pulseWidth = map(D-2000, 0, 180, 1000, 2000);
+//  one.writeMicroseconds(pulseWidth);
+//  }
 
 // Pick
-     pulseWidth = map(180, 0, 180, 1000, 2000);
-  three.writeMicroseconds(pulseWidth);
-  delay(600);
-     pulseWidth = map(1, 0, 180, 1000, 2000);
-  two.writeMicroseconds(pulseWidth);
-   delay(600);
-     pulseWidth = map(25, 0, 180, 1000, 2000);
-  one.writeMicroseconds(pulseWidth);
-   delay(600);
-    Serial.println("pick");
-  digitalWrite(electromagnet, HIGH);
-  delay(500); 
+   
 
 // avoid obstacle
-    pulseWidth = map(90, 0, 180, 1000, 2000);
-  three.writeMicroseconds(pulseWidth);
-  delay(600);
-     pulseWidth = map(90, 0, 180, 1000, 2000);
-  two.writeMicroseconds(pulseWidth);
-   delay(600);
-     pulseWidth = map(90, 0, 180, 1000, 2000);
-  one.writeMicroseconds(pulseWidth);
-   delay(600);
-    Serial.println("avoid obstacle");
-  digitalWrite(electromagnet, HIGH);
-  delay(500); 
- //place 
-    pulseWidth = map(180, 0, 180, 1000, 2000);
-  three.writeMicroseconds(pulseWidth);
-   delay(600);
-    pulseWidth = map(90, 0, 180, 1000, 2000);
-  two.writeMicroseconds(pulseWidth);
-   delay(600);
-    pulseWidth = map(180, 0, 180, 1000, 2000);
-  one.writeMicroseconds(pulseWidth);
-   delay(600);
-   Serial.println("place");
-  digitalWrite(electromagnet, LOW);
-  delay(500);
+   // D = Serial.parseInt();
+// Serial.println(D);
+// delay(500);
 
  
  
@@ -119,7 +123,10 @@ void loop() {
 //horizontal();
 //elbow();
 
+
+
 }
+
 void electro(){
   Serial.print("electromagnet activated");
   digitalWrite(electromagnet, LOW);
@@ -130,7 +137,14 @@ void electro(){
 }
 
 
-  
+void movearm(){
+  int count = 0;
+  for(count = start; count <= finish; count += 1){
+  pulseWidth = map(count, 0, 180, 1000, 2000);
+  one.writeMicroseconds(pulseWidth);
+    delay(T);             
+}
+}
 
 void homing(){
    pulseWidth = map(0, 0, 180, 1000, 2000);
@@ -144,6 +158,8 @@ void homing(){
   Serial.println("end homing");
   
 }
+
+
 void vertical(){
    Serial.println("start vertical");
     
@@ -163,6 +179,8 @@ void vertical(){
   }
   Serial.println("end vertical");
 }
+
+
 void horizontal(){
   Serial.println("start horizontal");
 
@@ -203,3 +221,51 @@ void elbow(){
 }
 Serial.println("end elbow");
 }
+
+void pick(){
+   pulseWidth = map(180, 0, 180, 1000, 2000);
+  three.writeMicroseconds(pulseWidth);
+  delay(600);
+     pulseWidth = map(1, 0, 180, 1000, 2000);
+  two.writeMicroseconds(pulseWidth);
+   delay(600);
+     pulseWidth = map(180, 0, 180, 1000, 2000);
+  one.writeMicroseconds(pulseWidth);
+   delay(600);
+    Serial.println("pick");
+  digitalWrite(electromagnet, HIGH);
+  delay(500); 
+  delay(2000);
+}
+
+  void obstacle(){
+   pulseWidth = map(90, 0, 180, 1000, 2000);
+  three.writeMicroseconds(pulseWidth);
+  delay(600);
+     pulseWidth = map(90, 0, 180, 1000, 2000);
+  two.writeMicroseconds(pulseWidth);
+   delay(600);
+     pulseWidth = map(90, 0, 180, 1000, 2000);
+  one.writeMicroseconds(pulseWidth);
+   delay(600);
+    Serial.println("avoid obstacle");
+  digitalWrite(electromagnet, HIGH);
+  delay(500); 
+  delay(2000);
+  }
+  
+    void place(){
+    pulseWidth = map(180, 0, 180, 1000, 2000);
+  three.writeMicroseconds(pulseWidth);
+   delay(600);
+    pulseWidth = map(1, 0, 180, 1000, 2000);
+  two.writeMicroseconds(pulseWidth);
+   delay(600);
+    pulseWidth = map(180, 0, 180, 1000, 2000);
+  one.writeMicroseconds(pulseWidth);
+   delay(600);
+   Serial.println("place");
+  digitalWrite(electromagnet, LOW);
+  delay(500);
+  delay(2000);
+    }
