@@ -1,0 +1,11 @@
+The missing part in the code was the initialization of the tempReading values:
+
+Explanation of the Fixes:
+Array Name Consistency:
+
+I changed readings[] to reading[] in the loop that copies the values into the temporary array (tempReadings[]). Now, the array names match, and there is no confusion.
+
+Median Calculation:
+
+After you gather all the readings in reading[], the code sorts the values in tempReadings[] to calculate the median value.
+
